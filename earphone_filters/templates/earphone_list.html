@@ -1,0 +1,106 @@
+{% load crispy_forms_tags %}
+
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+
+<style>
+  .earphone-filter-form {
+    margin-bottom: 20px;
+  }
+
+  .earphone-card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .earphone-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .earphone-card .card-body {
+    padding: 20px;
+  }
+
+  .earphone-card .card-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .earphone-card .card-text {
+    margin-bottom: 5px;
+  }
+</style>
+
+<div class="container">
+  <form
+    method="GET"
+    action="{% url 'earphone_list' %}"
+    class="form-inline earphone-filter-form"
+  >
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_min_price">Min Price:</label>
+      {{ form.min_price|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_max_price">Max Price:</label>
+      {{ form.max_price|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_brand">Brand:</label>
+      {{ form.brand|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_product_type">Product Type:</label>
+      {{ form.product_type|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_seller">Seller:</label>
+      {{ form.seller|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_product_name">Product Name:</label>
+      {{ form.product_name|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_min_warranty">Min Warranty:</label>
+      {{ form.min_warranty|as_crispy_field }}
+    </div>
+    <div class="form-group">
+      <label for="id_max_warranty">Max Warranty:</label>
+      {{ form.max_warranty|as_crispy_field }}
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+
+  <div class="row">
+    {% for earphone in earphones %}
+    <div class="col-md-4 mb-4">
+      <div class="card earphone-card">
+        <img
+          src="{{ earphone.image.url }}"
+          class="card-img-top"
+          alt="{{ earphone.name }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ earphone.name }}</h5>
+          <p class="card-text">Price: ${{ earphone.price }}</p>
+          <p class="card-text">Brand: {{ earphone.brand }}</p>
+          <p class="card-text">Product Type: {{ earphone.product_type }}</p>
+          <p class="card-text">Seller: {{ earphone.seller }}</p>
+          <p class="card-text">
+            Warranty: {{ earphone.warranty_period }} months
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
